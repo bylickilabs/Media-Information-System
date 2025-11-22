@@ -25,8 +25,8 @@ jobs:
 
     - name: 📦 Abhängigkeiten installieren
       run: |
+        pip install --upgrade pip
         pip install customtkinter requests
-        echo "Keine weiteren Anforderungen gefunden"
 
     - name: 🔍 Anwendung validieren
       run: |
@@ -49,10 +49,13 @@ jobs:
         languages: python
         queries: security-and-quality
 
-    - name: 🏗️ Build-Schritt definieren
+    - name: 🏗️ Manuelles Build-Skript für CodeQL
       run: |
-        echo "Starte CodeQL Python Build"
-        python -m compileall .
+        echo "Baue Python CodeQL Umgebung..."
+        mkdir build
+        copy app.py build\
+        python -m compileall build
+        echo "CodeQL Build abgeschlossen."
 
     - name: 🔎 CodeQL Analyse
       uses: github/codeql-action/analyze@v3
