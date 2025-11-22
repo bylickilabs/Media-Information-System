@@ -2,7 +2,6 @@ import os
 import sys
 import sqlite3
 import threading
-import time
 import webbrowser
 from datetime import datetime
 from pathlib import Path
