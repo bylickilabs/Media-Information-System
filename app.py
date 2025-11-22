@@ -1,5 +1,4 @@
 import os
-import sys
 import sqlite3
 import threading
 import webbrowser
