@@ -8,7 +8,7 @@ on:
 
 permissions:
   contents: read
-  security-events: write   # ✅ notwendig für CodeQL
+  security-events: write
   actions: read
 
 jobs:
@@ -38,9 +38,19 @@ jobs:
     runs-on: windows-latest
     permissions:
       contents: read
-      security-events: write   # ✅ erforderlich für Upload
+      security-events: write
       actions: read
 
     steps:
     - name: 🛒 Repository auschecken
-      uses: actio
+      uses: actions/checkout@v4
+
+    - name: 🧠 CodeQL Initialisieren
+      uses: github/codeql-action/init@v3
+      with:
+        languages: python
+
+    - name: 🧪 CodeQL Analysieren
+      uses: github/codeql-action/analyze@v3
+      with:
+        category: "/language:python"
