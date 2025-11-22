@@ -1,0 +1,40 @@
+name: MIS CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: 🛒 Repository
+      uses: actions/checkout@v4
+
+    - name: 🐍 Python einrichten
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+
+    - name: 📦 Dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install customtkinter requests
+
+    - name: 🔍 Validate
+      run: |
+        python -m py_compile app.py
+
+    - name: 🧪 CodeQL Analyse
+      uses: github/codeql-action/init@v3
+      with:
+        languages: python
+
+    - name: 🔎 CodeQL Scannen
+      uses: github/codeql-action/analyze@v3
