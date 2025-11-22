@@ -46,7 +46,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: 🧠 CodeQL Initialisieren
-      uses: github/codeql-action/init@v3
+      uses: github/codeql-action/init@v4
       with:
         languages: python
 
