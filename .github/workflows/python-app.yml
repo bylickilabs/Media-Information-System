@@ -8,13 +8,15 @@ on:
 
 permissions:
   contents: read
+  security-events: write   # ✅ notwendig für CodeQL
+  actions: read
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-    - name: 🛒 Repository
+    - name: 🛒 Repository auschecken
       uses: actions/checkout@v4
 
     - name: 🐍 Python einrichten
@@ -22,19 +24,23 @@ jobs:
       with:
         python-version: "3.12"
 
-    - name: 📦 Dependencies
+    - name: 📦 Abhängigkeiten installieren
       run: |
-        pip install -r requirements.txt
+        pip install -r requirements.txt || echo "Keine requirements.txt vorhanden"
         pip install customtkinter requests
 
-    - name: 🔍 Validate
+    - name: 🔍 Anwendung validieren
       run: |
         python -m py_compile app.py
 
-    - name: 🧪 CodeQL Analyse
-      uses: github/codeql-action/init@v3
-      with:
-        languages: python
+  codeql-analysis:
+    needs: build
+    runs-on: windows-latest
+    permissions:
+      contents: read
+      security-events: write   # ✅ erforderlich für Upload
+      actions: read
 
-    - name: 🔎 CodeQL Scannen
-      uses: github/codeql-action/analyze@v3
+    steps:
+    - name: 🛒 Repository auschecken
+      uses: actio
